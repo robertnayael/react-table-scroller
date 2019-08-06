@@ -1,0 +1,9 @@
+.main-wrapper {
+    width: 90vw;
+    overflow: hidden;
+    margin: 1vh 0;
+}
+
+.content-wrapper {
+    display: inline-block;
+}
