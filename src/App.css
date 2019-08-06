@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+table {
+  table-layout:fixed;
+  border-spacing: 0;
+}
+
+tr {
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+td, th {
+  display: inline-block;
+  width: 10vw;
+  padding: 5px;
+  background: lightgray;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+}
+
+input {
+  display: block;
+  width: 100%;
+  padding: 5px;
+}
