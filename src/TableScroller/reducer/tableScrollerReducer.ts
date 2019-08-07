@@ -1,30 +1,32 @@
-import { TableScrollerState } from '../models';
-import { ActionTypes, TableScrollerAction } from './actions';
+import { getType } from 'typesafe-actions';
 
-export function tableScrollerReducer(state: TableScrollerState, action: TableScrollerAction): TableScrollerState {
+import { TableScrollerState } from '../models';
+import { actions, TableScrollerActions } from './';
+
+export function tableScrollerReducer(state: TableScrollerState, action: TableScrollerActions): TableScrollerState {
 
     switch (action.type) {
 
-        case ActionTypes.UpdateMainWrapperRect: {
+        case getType(actions.updateMainWrapperRect): {
             return {
                 ...state,
                 isScrolling: false,
                 position: 0,
                 rects: {
                     ...state.rects,
-                    mainWrapper: action.rect
+                    mainWrapper: action.payload.rect
                 }
             };
         }
 
-        case ActionTypes.UpdateContentWrapperRect: {
+        case getType(actions.updateContentWrapperRect): {
             return {
                 ...state,
                 isScrolling: false,
                 position: 0,
                 rects: {
                     ...state.rects,
-                    contentWrapper: action.rect
+                    contentWrapper: action.payload.rect
                 }
             };
         }
