@@ -11,6 +11,7 @@ const emptyRect: BoundingRect = {
 
 export const initialState: TableScrollerState = {
     position: 0,
+    scrollOffset: 0,
     isScrolling: false,
     columns: 0,
     rects: {
