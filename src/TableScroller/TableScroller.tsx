@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useReducer } from 'react';
 
 import { actions, tableScrollerReducer, initialState } from './reducer';
+import { useRectDispatcher } from './helpers';
 import './TableScroller.css';
 
 export const TableScroller: React.FC = ({ children }) => {
@@ -12,19 +13,8 @@ export const TableScroller: React.FC = ({ children }) => {
     const mainWrapperRef = useRef<HTMLDivElement>(null);
     const contentWrapperRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (mainWrapperRef.current) {
-            const rect = mainWrapperRef.current.getBoundingClientRect();
-            dispatch(actions.updateMainWrapperRect(rect));
-        }
-    }, []);
-
-    useEffect(() => {
-        if (contentWrapperRef.current) {
-            const rect = contentWrapperRef.current.getBoundingClientRect();
-            dispatch(actions.updateContentWrapperRect(rect));
-        }
-    }, []);
+    useRectDispatcher(dispatch, actions.updateMainWrapperRect, mainWrapperRef);
+    useRectDispatcher(dispatch, actions.updateContentWrapperRect, contentWrapperRef);
 
     const contentOffset = 0;
     const onFocus = () => {};
