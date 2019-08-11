@@ -1,0 +1,11 @@
+.scrollbar {
+    background: lightgray;
+    height: 20px;
+
+}
+
+.handler {
+    background: grey;
+    height: 100%;
+    width: 0;
+}
