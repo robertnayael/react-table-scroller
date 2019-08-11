@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useReducer } from 'react';
 
 import { actions, tableScrollerReducer, initialState } from './reducer';
 import { useRectDispatcher } from './helpers';
+import { Scrollbar } from './';
 import './TableScroller.css';
 
 export const TableScroller: React.FC = ({ children }) => {
@@ -19,22 +20,31 @@ export const TableScroller: React.FC = ({ children }) => {
     const contentOffset = 0;
     const onFocus = () => {};
     const smoothScrolling = !state.isScrolling;
+    const visibleContentPercentage = state.rects.contentWrapper.width / state.rects.mainWrapper.width;
 
     return (
-        <div
-            ref={mainWrapperRef}
-            className="main-wrapper"
-        >
+        <div className="enclosing-wrapper">
+            <Scrollbar 
+                dispatch={dispatch}
+                handlerPosition={0}
+                isScrolling={false}
+                visibleContentPercentage={visibleContentPercentage}
+            />
             <div
-                ref={contentWrapperRef}
-                onFocus={onFocus}
-                className="content-wrapper"
-                style={{
-                    transition: smoothScrolling ? 'transform .25s' : 'none',
-                    transform: `translateX(-${contentOffset}px)`
-                }}
+                ref={mainWrapperRef}
+                className="main-wrapper"
             >
-                {children}
+                <div
+                    ref={contentWrapperRef}
+                    onFocus={onFocus}
+                    className="content-wrapper"
+                    style={{
+                        transition: smoothScrolling ? 'transform .25s' : 'none',
+                        transform: `translateX(-${contentOffset}px)`
+                    }}
+                >
+                    {children}
+                </div>
             </div>
         </div>
     );

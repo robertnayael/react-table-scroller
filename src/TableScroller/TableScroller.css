@@ -1,5 +1,8 @@
-.main-wrapper {
+.enclosing-wrapper {
     width: 90vw;
+}
+
+.main-wrapper {
     overflow: hidden;
     margin: 1vh 0;
 }
