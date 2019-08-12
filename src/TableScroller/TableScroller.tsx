@@ -20,7 +20,7 @@ export const TableScroller: React.FC = ({ children }) => {
     const contentOffset = 0;
     const onFocus = () => {};
     const smoothScrolling = !state.isScrolling;
-    const visibleContentPercentage = state.rects.contentWrapper.width / state.rects.mainWrapper.width;
+    const visibleContentPercentage = state.rects.mainWrapper.width / state.rects.contentWrapper.width;
 
     return (
         <div className="enclosing-wrapper">
