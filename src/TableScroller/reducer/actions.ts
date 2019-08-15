@@ -1,20 +1,20 @@
 import { createAction } from 'typesafe-actions';
 
-import { BoundingRect, Point } from '../models';
+import { Point } from '../models';
 
-export const updateMainWrapperRect = createAction('UpdateMainWrapperRect', action => 
-    (rect: BoundingRect) =>
-        action({ rect })
+export const updateMainWrapperElem = createAction('UpdateMainWrapperElem', action => 
+    (elem: HTMLDivElement | null) =>
+        action({ elemName: 'mainWrapper', elem })
 );
 
-export const updateContentWrapperRect = createAction('UpdateContentWrapperRect', action =>
-    (rect: BoundingRect) =>
-        action({ rect })
+export const updateContentWrapperElem = createAction('UpdateContentWrapperElem', action =>
+    (elem: HTMLDivElement | null) =>
+        action({ elemName: 'contentWrapper', elem })
 );
 
-export const updateScrollbarRect = createAction('UpdateScrollbarRect', action =>
-    (rect: BoundingRect) =>
-        action({ rect })
+export const updateScrollbarElem = createAction('UpdateScrollbarElem', action =>
+    (elem: HTMLDivElement | null) =>
+        action({ elemName: 'scrollbar', elem })
 );
 
 export const scrollStart = createAction('ScrollStart', action =>

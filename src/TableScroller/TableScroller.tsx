@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useReducer } from 'react';
 
 import { actions, tableScrollerReducer, initialState } from './reducer';
-import { useRectDispatcher } from './helpers';
 import { Scrollbar } from './';
 import './TableScroller.css';
 
@@ -14,20 +13,20 @@ export const TableScroller: React.FC = ({ children }) => {
     const mainWrapperRef = useRef<HTMLDivElement>(null);
     const contentWrapperRef = useRef<HTMLDivElement>(null);
 
-    useRectDispatcher(dispatch, actions.updateMainWrapperRect, mainWrapperRef);
-    useRectDispatcher(dispatch, actions.updateContentWrapperRect, contentWrapperRef);
+    useEffect(() => {
+        dispatch(actions.updateMainWrapperElem(mainWrapperRef.current));
+        dispatch(actions.updateContentWrapperElem(contentWrapperRef.current));
+    }, [ mainWrapperRef, contentWrapperRef ]);
 
-    const contentOffset = 0;
     const onFocus = () => {};
-    const smoothScrolling = !state.isScrolling;
-    const visibleContentPercentage = state.rects.mainWrapper.width / state.rects.contentWrapper.width;
+    const { isScrolling, scrollOffset, visibleContentPercentage } = state;
 
     return (
         <div className="enclosing-wrapper">
             <Scrollbar 
                 dispatch={dispatch}
                 handlerPosition={0}
-                isScrolling={false}
+                isScrolling={isScrolling}
                 visibleContentPercentage={visibleContentPercentage}
             />
             <div
@@ -39,8 +38,8 @@ export const TableScroller: React.FC = ({ children }) => {
                     onFocus={onFocus}
                     className="content-wrapper"
                     style={{
-                        transition: smoothScrolling ? 'transform .25s' : 'none',
-                        transform: `translateX(-${contentOffset}px)`
+                        transition: isScrolling ? 'none' : 'transform .25s',
+                        transform: `translateX(-${scrollOffset}px)`
                     }}
                 >
                     {children}

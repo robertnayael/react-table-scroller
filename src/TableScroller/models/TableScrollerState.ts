@@ -14,6 +14,11 @@ export interface TableScrollerState {
      * Ranges from `0` (no scroll) to `contentWrapper` size minus `mainWrapper` size (100% scroll).
      */
     scrollOffset: number;
+    /**
+     * Inidicates what proportion of the table is visible at any moment. E.g. `0.25` means that
+     * 1/4 of the table is visible.
+     */
+    visibleContentPercentage: number;
     /** 
      * Indicates whether scrolling is in progress, i.e. whether the user is holding the
      * scrollbar handle.
@@ -25,14 +30,22 @@ export interface TableScrollerState {
      */
     columns: number;
     /**
+     * DOM elements whose position and/or dimensions need to be measured at various points in time.
+     */
+    elements: {
+        mainWrapper: HTMLDivElement | null;
+        contentWrapper: HTMLDivElement | null;
+        scrollbar: HTMLDivElement | null;
+    };
+    /**
      * Bounding rectangles of those DOM elements that need to be measured for the scrolling
      * mechanism to work correctly. Note that these are supposed to be updated whenever their actual
      * dimensions change.
      */
     rects: {
-        mainWrapper: BoundingRect;
-        contentWrapper: BoundingRect;
-        scrollbar: BoundingRect;
+        mainWrapper: BoundingRect | null;
+        contentWrapper: BoundingRect | null;
+        scrollbar: BoundingRect | null;
     };
     /** Mouse position on scroll start */
     startPosition: {
