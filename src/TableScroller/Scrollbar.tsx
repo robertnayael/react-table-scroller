@@ -21,7 +21,7 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
 
     useEffect(() => {
         dispatch(actions.updateScrollbarElem(scrollbar));
-    }, [ scrollbar ]);
+    }, [ dispatch, scrollbar ]);
 
     const handlerWidth = visibleContentPercentage * 100;
     return (
