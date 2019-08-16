@@ -1,4 +1,4 @@
-import { BoundingRect, TableScrollerState } from '../models';
+import { TableScrollerState } from '../models';
 
 export const initialState: TableScrollerState = {
     position: 0,
