@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 
 import { actions, tableScrollerReducer, initialState } from './reducer';
 import { Scrollbar } from './';
@@ -10,13 +10,13 @@ export const TableScroller: React.FC = ({ children }) => {
 
     console.log(state)
 
-    const mainWrapperRef = useRef<HTMLDivElement>(null);
-    const contentWrapperRef = useRef<HTMLDivElement>(null);
+    const [ mainWrapper, mainWrapperRef ] = useState<HTMLDivElement | null>(null);
+    const [contentWrapper, contentWrapperRef ] = useState<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        dispatch(actions.updateMainWrapperElem(mainWrapperRef.current));
-        dispatch(actions.updateContentWrapperElem(contentWrapperRef.current));
-    }, [ mainWrapperRef, contentWrapperRef ]);
+        dispatch(actions.updateMainWrapperElem(mainWrapper));
+        dispatch(actions.updateContentWrapperElem(contentWrapper));
+    }, [ mainWrapper, contentWrapper ]);
 
     const onFocus = () => {};
     const { isScrolling, scrollOffset, visibleContentPercentage } = state;

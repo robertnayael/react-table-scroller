@@ -1,6 +1,5 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { useRectDispatcher } from './helpers';
 import { actions, TableScrollerActions } from './reducer';
 import './Scrollbar.css';
 
@@ -18,11 +17,11 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
     visibleContentPercentage
 }) => {
 
-    const scrollbarRef = useRef<HTMLDivElement>(null);
+    const [scrollbar, scrollbarRef] = useState<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        dispatch(actions.updateScrollbarElem(scrollbarRef.current));
-    }, [ scrollbarRef ]);
+        dispatch(actions.updateScrollbarElem(scrollbar));
+    }, [ scrollbar ]);
 
     const handlerWidth = visibleContentPercentage * 100;
     return (
