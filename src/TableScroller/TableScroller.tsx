@@ -8,10 +8,10 @@ export const TableScroller: React.FC = ({ children }) => {
 
     const [ state, dispatch ] = useReducer(tableScrollerReducer, initialState);
 
-    console.log(state)
+    console.table(state)
 
     const [ mainWrapper, mainWrapperRef ] = useState<HTMLDivElement | null>(null);
-    const [contentWrapper, contentWrapperRef ] = useState<HTMLDivElement | null>(null);
+    const [ contentWrapper, contentWrapperRef ] = useState<HTMLDivElement | null>(null);
 
     useEffect(() => {
         dispatch(actions.updateMainWrapperElem(mainWrapper));
@@ -19,7 +19,7 @@ export const TableScroller: React.FC = ({ children }) => {
     }, [ mainWrapper, contentWrapper ]);
 
     const onFocus = () => {};
-    const { isScrolling, scrollOffset, visibleContentPercentage } = state;
+    const { isScrolling, scrollPositionPx, visibleContentPercentage } = state;
 
     return (
         <div className="enclosing-wrapper">
@@ -39,7 +39,7 @@ export const TableScroller: React.FC = ({ children }) => {
                     className="content-wrapper"
                     style={{
                         transition: isScrolling ? 'none' : 'transform .25s',
-                        transform: `translateX(-${scrollOffset}px)`
+                        transform: `translateX(-${scrollPositionPx}px)`
                     }}
                 >
                     {children}

@@ -2,18 +2,18 @@ import { BoundingRect, Point } from '.';
 
 export interface TableScrollerState {
     /** 
-     * "Abstract" scroll position within the range of `0` to `1`,
-     * where `0` is no scroll and `1` full scroll.
+     * Scroll position within the range of `0` to `1`, where `0` is no scroll and `1` full scroll.
      */
-    position: number;
+    scrollPositionPercentage: number;
     /**
-     * Current scroll position of the table in pixels. In theory, it could be calculated
-     * using the `position` value and table dimensions, but this occasionally leads to
-     * incorrect values due to decimal rounding errors, hence a separate value.
+     * Scroll position of the table in pixels. In theory, it could be calculated
+     * using the `scrollPositionPercentage` value and table dimensions, but this
+     * occasionally leads to incorrect values due to decimal rounding errors,
+     * hence a separate value.
      * 
      * Ranges from `0` (no scroll) to `contentWrapper` size minus `mainWrapper` size (100% scroll).
      */
-    scrollOffset: number;
+    scrollPositionPx: number;
     /**
      * Inidicates what proportion of the table is visible at any moment. E.g. `0.25` means that
      * 1/4 of the table is visible.
