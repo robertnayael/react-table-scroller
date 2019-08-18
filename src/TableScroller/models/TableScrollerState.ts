@@ -54,9 +54,8 @@ export interface TableScrollerState {
         contentWrapper: BoundingRect | null;
         scrollbar: BoundingRect | null;
     };
-    /** Mouse position on scroll start */
-    positionOnScrollStart: {
-        mouse: Point | null;
-        scrollbarHandler: Point | null;
-    };
+    /** Absolute mouse position on scroll start */
+    mousePosOnScrollStart: Point | null;
+    /** Position of scrollbar handler on scroll start, relative to the whole scrollbar. */
+    handlerPosOnScrollStart: Point | null;
 }

@@ -18,8 +18,6 @@ export const initialState: TableScrollerState = {
         contentWrapper: null,
         scrollbar: null,
     },
-    positionOnScrollStart: {
-        mouse: null,
-        scrollbarHandler: null,
-    },
+    mousePosOnScrollStart: null,
+    handlerPosOnScrollStart: null
 };

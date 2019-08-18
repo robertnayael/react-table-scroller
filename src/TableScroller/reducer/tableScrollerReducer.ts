@@ -34,30 +34,22 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
                 }
             }
 
-            const {
-                top: scrollbarTop,
-                left: scrollbarLeft,
-                width: scrollbarWidth
-            } = state.rects.scrollbar!;
+            const { width: scrollbarWidth } = state.rects.scrollbar!;
 
-            const scrollbarHandlerWidth = scrollbarWidth * state.visibleContentPercentage;
-            const activeScrollWidth = scrollbarWidth - scrollbarHandlerWidth;
-            const relativeHandlerLeft = activeScrollWidth * state.scrollPositionPercentage;
-            const absoluteHandlerLeft = relativeHandlerLeft + scrollbarLeft;
-
+            const handlerWidth = scrollbarWidth * state.visibleContentPercentage;
+            const activeScrollWidth = scrollbarWidth - handlerWidth;
             const handlerPosition = {
-                x: absoluteHandlerLeft,
-                y: scrollbarTop
+                x: activeScrollWidth * state.scrollPositionPercentage,
+                y: 0 // TODO: handle vertical scroll as well
             };
+
             const { mousePosition } = action.payload;
 
             return {
                 ...state,
                 isScrolling: true,
-                positionOnScrollStart: {
-                    mouse: mousePosition,
-                    scrollbarHandler: handlerPosition
-                }
+                mousePosOnScrollStart: mousePosition,
+                handlerPosOnScrollStart: handlerPosition
             };
         }
 
@@ -69,36 +61,23 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
                 };
             }
 
-            const {
-                left: scrollbarLeft,
-                right: scrollbarRight,
-                width: scrollbarWidth
-            } = state.rects.scrollbar!;
+            const { width: scrollbarWidth } = state.rects.scrollbar!;
 
             const handlerWidth = scrollbarWidth * state.visibleContentPercentage;
-
-            const handlerPositionRange = {
-                min: scrollbarLeft,
-                max: scrollbarRight - handlerWidth
-            };
-
-            const clampPosition = (position: number) =>
-                Math.min(handlerPositionRange.max, Math.max(handlerPositionRange.min, position));
-
-            const mouseDistanceSinceStart = action.payload.mousePositionAbsolute.x - state.positionOnScrollStart.mouse!.x;
-            const startHandlerPosition = state.positionOnScrollStart.scrollbarHandler!.x;
-            const currentHandlerPosition = clampPosition(startHandlerPosition + mouseDistanceSinceStart);
-
             const activeScrollWidth = scrollbarWidth - handlerWidth;
-            const scrollPositionPercentage = (currentHandlerPosition - scrollbarLeft) / activeScrollWidth;
+            const clampPosition = (position: number) =>
+                Math.min(activeScrollWidth, Math.max(0, position));
+
+            const mouseDistanceSinceStart = action.payload.mousePositionAbsolute.x - state.mousePosOnScrollStart!.x;
+            const handlerPosition = clampPosition(state.handlerPosOnScrollStart!.x + mouseDistanceSinceStart);
+            const scrollPositionPercentage = handlerPosition / activeScrollWidth;
             const scrollPositionPx = Math.round((state.rects.contentWrapper!.width - state.rects.mainWrapper!.width) * scrollPositionPercentage);
-            const handlerOffset = currentHandlerPosition - scrollbarLeft;
 
             return {
                 ...state,
                 scrollPositionPercentage,
                 scrollPositionPx,
-                handlerOffset
+                handlerOffset: handlerPosition
             };
         }
 
@@ -106,10 +85,8 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
             return {
                 ...state,
                 isScrolling: false,
-                positionOnScrollStart: {
-                    mouse: null,
-                    scrollbarHandler: null
-                }
+                mousePosOnScrollStart: null,
+                handlerPosOnScrollStart: null
             };
         }
     }
