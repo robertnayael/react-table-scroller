@@ -8,8 +8,6 @@ export const TableScroller: React.FC = ({ children }) => {
 
     const [ state, dispatch ] = useReducer(tableScrollerReducer, initialState);
 
-    console.table(state)
-
     const [ mainWrapper, mainWrapperRef ] = useState<HTMLDivElement | null>(null);
     const [ contentWrapper, contentWrapperRef ] = useState<HTMLDivElement | null>(null);
 
@@ -19,13 +17,13 @@ export const TableScroller: React.FC = ({ children }) => {
     }, [ mainWrapper, contentWrapper ]);
 
     const onFocus = () => {};
-    const { isScrolling, scrollPositionPx, visibleContentPercentage } = state;
+    const { handlerOffset, isScrolling, scrollPositionPx, visibleContentPercentage } = state;
 
     return (
         <div className="enclosing-wrapper">
             <Scrollbar 
                 dispatch={dispatch}
-                handlerPosition={0}
+                handlerPosition={handlerOffset}
                 isScrolling={isScrolling}
                 visibleContentPercentage={visibleContentPercentage}
             />

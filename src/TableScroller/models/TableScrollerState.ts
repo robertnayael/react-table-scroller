@@ -1,6 +1,12 @@
 import { BoundingRect, Point } from '.';
 
 export interface TableScrollerState {
+    /**
+     * Indicates there was a problem with the order in which scroll events fired. This happens
+     * occasionally due to rapid clicks on the scrollbar handler, which may trigger a scroll move
+     * event after scroll end; in such cases, the move event should be ignored, and the flag reset.
+     */
+    eventOrderError: boolean;
     /** 
      * Scroll position within the range of `0` to `1`, where `0` is no scroll and `1` full scroll.
      */
@@ -14,6 +20,7 @@ export interface TableScrollerState {
      * Ranges from `0` (no scroll) to `contentWrapper` size minus `mainWrapper` size (100% scroll).
      */
     scrollPositionPx: number;
+    handlerOffset: number;
     /**
      * Inidicates what proportion of the table is visible at any moment. E.g. `0.25` means that
      * 1/4 of the table is visible.
@@ -48,8 +55,8 @@ export interface TableScrollerState {
         scrollbar: BoundingRect | null;
     };
     /** Mouse position on scroll start */
-    startPosition: {
-        absolute: Point | null;
-        relativeToHandler: Point | null;
+    positionOnScrollStart: {
+        mouse: Point | null;
+        scrollbarHandler: Point | null;
     };
 }

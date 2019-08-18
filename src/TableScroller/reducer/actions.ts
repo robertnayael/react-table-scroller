@@ -18,8 +18,8 @@ export const updateScrollbarElem = createAction('UpdateScrollbarElem', action =>
 );
 
 export const scrollStart = createAction('ScrollStart', action =>
-    (startPositionAbsolute: Point, startPositionRelative: Point) =>
-        action({ startPositionAbsolute, startPositionRelative })
+    (mousePosition: Point) =>
+        action({ mousePosition })
 );
 
 export const scrollMove = createAction('ScrollMove', action =>
