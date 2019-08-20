@@ -21,17 +21,41 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
     const [scrollbar, scrollbarRef] = useState<HTMLDivElement | null>(null);
 
     const onScrollStart = useCallback(
-        (e: React.MouseEvent) => dispatch(actions.scrollStart(getMousePosition(e))),
+        (e: React.MouseEvent) => {
+            /* While these event listeners could be added/removed using `useEffect` (based on
+               the current value of `isScrolling` prop), this causes problems due to the
+               asynchronous nature of React's change propagation. For example, a mouse up event
+               disables the `isScrolling` flag in the parent component's state. We expect that
+               after that, mouse move events will no longer emit. However, before the new value
+               of the flag makes it to this component, and before the event listener is removed,
+               it may have enough time to notify further events. We could prevent the resulting
+               bugs by using more flags, but it's more hassle-free to just handle event listeners
+               imperatively in this case.
+             */
+            addListeners();
+            dispatch(actions.scrollStart(getMousePosition(e)));
+        },
         [ dispatch ]
     );
 
     const onScrollMove = useCallback(
-        (e: MouseEvent) => dispatch(actions.scrollMove(getMousePosition(e))),
+        (e: MouseEvent) => {
+            /* Without calling `preventDefault`, an occasional bug appears where
+               after a few events no further events are notified to this handler,
+               even though the event listener has not been removed. Not really sure
+               what's the reason behind this :(
+            */
+            e.preventDefault();
+            dispatch(actions.scrollMove(getMousePosition(e)))
+        },
         [ dispatch ]
     );
 
     const onScrollEnd = useCallback(
-        () => dispatch(actions.scrollEnd()),
+        () => {
+            clearListeners();
+            dispatch(actions.scrollEnd())
+        },
         [ dispatch ]
     );
 
@@ -51,10 +75,7 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
         dispatch(actions.updateScrollbarElem(scrollbar));
     }, [ dispatch, scrollbar ]);
 
-    useEffect(() => {
-        isScrolling ? addListeners() : clearListeners();
-        return clearListeners;
-    }, [ addListeners, clearListeners, isScrolling ]);
+    useEffect(() => clearListeners, [ clearListeners ]);
 
     const handlerWidth = visibleContentPercentage * 100;
     return (

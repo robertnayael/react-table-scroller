@@ -2,7 +2,7 @@ import { getType } from 'typesafe-actions';
 
 import { TableScrollerState } from '../models';
 import { actions, initialState, TableScrollerActions } from './';
-import { getBoundingRect } from '../helpers';
+import { getBoundingRect, getColumnPositions, getInnerTable } from '../helpers';
 
 export function tableScrollerReducer(state: TableScrollerState, action: TableScrollerActions): TableScrollerState {
 
@@ -27,13 +27,6 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
         }
 
         case getType(actions.scrollStart): {
-            if (state.eventOrderError) {
-                return {
-                    ...state,
-                    eventOrderError: false
-                }
-            }
-
             const { width: scrollbarWidth } = state.rects.scrollbar!;
 
             const handlerWidth = scrollbarWidth * state.visibleContentPercentage;
@@ -54,13 +47,6 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
         }
 
         case getType(actions.scrollMove): {
-            if (!state.isScrolling) {
-                return {
-                    ...state,
-                    eventOrderError: true
-                };
-            }
-
             const { width: scrollbarWidth } = state.rects.scrollbar!;
 
             const handlerWidth = scrollbarWidth * state.visibleContentPercentage;

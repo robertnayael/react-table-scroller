@@ -1,12 +1,6 @@
 import { BoundingRect, Point } from '.';
 
 export interface TableScrollerState {
-    /**
-     * Indicates there was a problem with the order in which scroll events fired. This happens
-     * occasionally due to rapid clicks on the scrollbar handler, which may trigger a scroll move
-     * event after scroll end; in such cases, the move event should be ignored, and the flag reset.
-     */
-    eventOrderError: boolean;
     /** 
      * Scroll position within the range of `0` to `1`, where `0` is no scroll and `1` full scroll.
      */

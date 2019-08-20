@@ -1,7 +1,6 @@
 import { TableScrollerState } from '../models';
 
 export const initialState: TableScrollerState = {
-    eventOrderError: false,
     scrollPositionPercentage: 0,
     scrollPositionPx: 0,
     handlerOffset: 0,
