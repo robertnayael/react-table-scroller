@@ -16,7 +16,7 @@ tr {
 
 td, th {
   display: inline-block;
-  width: 10vw;
+  width: 5em;
   padding: 5px;
   background: lightgray;
   border-right: 1px solid white;
