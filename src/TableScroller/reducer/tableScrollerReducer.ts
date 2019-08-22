@@ -2,7 +2,7 @@ import { getType } from 'typesafe-actions';
 
 import { TableScrollerState } from '../models';
 import { actions, initialState, TableScrollerActions } from './';
-import { getBoundingRect, getColumnPositions, getInnerTable } from '../helpers';
+import { getBoundingRect, getColumnPositions, getInnerTable, getNearestValue } from '../helpers';
 
 export function tableScrollerReducer(state: TableScrollerState, action: TableScrollerActions): TableScrollerState {
 
@@ -68,8 +68,18 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
         }
 
         case getType(actions.scrollEnd): {
+            const scrollPos = state.scrollPositionPx;
+            const snapPoints = getSnapPoints(state);
+            const snappedPos = getNearestValue(snapPoints, scrollPos);
+
+            const position = {
+                scrollPositionPx: snappedPos,
+                scrollPositionPercentage: snappedPos / getMaxScrollPosition(state)
+            };
+
             return {
                 ...state,
+                ...position,
                 isScrolling: false,
                 mousePosOnScrollStart: null,
                 handlerPosOnScrollStart: null
@@ -92,4 +102,17 @@ function getVisibleContentPercentage(rects: TableScrollerState['rects']): number
     return rects.mainWrapper && rects.contentWrapper
         ? Math.min(1, rects.mainWrapper.width / rects.contentWrapper.width)
         : 0;
+}
+
+function getMaxScrollPosition(state: TableScrollerState) {
+    return state.rects.contentWrapper!.width - state.rects.mainWrapper!.width;
+}
+
+function getSnapPoints(state: TableScrollerState) {
+    const table = getInnerTable(state.elements.contentWrapper!);
+    const maxPos = getMaxScrollPosition(state);
+    return table
+        ? getColumnPositions(table)
+            .filter(pos => pos <= maxPos)
+        : [ 0 ];
 }
