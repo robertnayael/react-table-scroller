@@ -59,6 +59,18 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
         [ dispatch ]
     );
 
+    const onScrollStep = useCallback(
+        (e: React.MouseEvent) => {
+            if (e.target === e.currentTarget) {
+                dispatch(actions.scrollStep({
+                    x: e.clientX,
+                    y: e.clientY
+                }));
+            }
+        },
+        [ dispatch ]
+    );
+
     const addListeners = useCallback(() => {
         document.addEventListener('mouseup', onScrollEnd);
         document.addEventListener('mouseleave', onScrollEnd);
@@ -82,11 +94,13 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
         <div
             ref={scrollbarRef}
             className="scrollbar"
+            onClick={onScrollStep}
         >
             <div
                 onMouseDown={onScrollStart}
                 className="handler"
                 style={{
+                    transition: isScrolling ? 'none' : 'transform .25s',
                     width: `${handlerWidth}%`,
                     transform: `translateX(${handlerPosition}px)`,
                 }}

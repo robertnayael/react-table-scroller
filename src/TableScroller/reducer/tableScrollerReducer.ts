@@ -3,6 +3,7 @@ import { getType } from 'typesafe-actions';
 import { TableScrollerState } from '../models';
 import { actions, initialState, TableScrollerActions } from './';
 import { getBoundingRect, getColumnPositions, getInnerTable, getNearestValue } from '../helpers';
+import { useContext } from 'react';
 
 export function tableScrollerReducer(state: TableScrollerState, action: TableScrollerActions): TableScrollerState {
 
@@ -85,8 +86,16 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
                 handlerPosOnScrollStart: null
             };
         }
+
+        case getType(actions.scrollStep): {
+            const mousePos = action.payload.mousePositionAbsolute.x;
+            const { scrollbar } = state.rects;
+            const scrollbarHandlerPos = scrollbar!.left + scrollbar!.width * state.scrollPositionPercentage;
+            const direction = mousePos < scrollbarHandlerPos ? -1 : 1;
+            return stepScroll(state, direction);
+        }
     }
-    
+
     return  state;
 }
 
@@ -115,4 +124,25 @@ function getSnapPoints(state: TableScrollerState) {
         ? getColumnPositions(table)
             .filter(pos => pos <= maxPos)
         : [ 0 ];
+}
+
+function stepScroll(state: TableScrollerState, direction: 1 | -1): TableScrollerState {
+    const snapPoints = getSnapPoints(state);
+    const currentPos = getNearestValue(snapPoints, state.scrollPositionPx);
+    const currentIndex = snapPoints.findIndex(snapPoint => snapPoint === currentPos);
+    const newIndex = Math.min(snapPoints.length - 1, Math.max(0, currentIndex + direction));
+    const newPos = snapPoints[newIndex];
+    const scrollPosition = {
+        scrollPositionPx: newPos,
+        scrollPositionPercentage: newPos / getMaxScrollPosition(state)
+    };
+    const handlerWidth = state.rects.scrollbar!.width * state.visibleContentPercentage;
+    const activeScrollWidth = state.rects.scrollbar!.width - handlerWidth;
+    const handlerPosition = activeScrollWidth * scrollPosition.scrollPositionPercentage;
+
+    return {
+        ...state,
+        ...scrollPosition,
+        handlerOffset: handlerPosition
+    };
 }
