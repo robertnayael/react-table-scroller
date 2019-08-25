@@ -3,7 +3,6 @@ import { getType } from 'typesafe-actions';
 import { TableScrollerState } from '../models';
 import { actions, initialState, TableScrollerActions } from './';
 import { getBoundingRect, getColumnPositions, getInnerTable, getNearestValue } from '../helpers';
-import { useContext } from 'react';
 
 export function tableScrollerReducer(state: TableScrollerState, action: TableScrollerActions): TableScrollerState {
 
