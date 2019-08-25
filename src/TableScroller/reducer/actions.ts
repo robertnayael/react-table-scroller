@@ -43,3 +43,8 @@ export const scrollStepBack = createAction('ScrollStepBack', action =>
 export const scrollStepForward = createAction('ScrollStepForward', action =>
     () => action()
 );
+
+export const focusChange = createAction('FocusChange', action =>
+    (focusedElem: HTMLElement) =>
+        action({ focusedElem })
+);

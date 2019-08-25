@@ -94,6 +94,42 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
             const direction = mousePos < scrollbarHandlerPos ? -1 : 1;
             return stepScroll(state, direction);
         }
+
+        case getType(actions.focusChange): {
+            const focusedElem = action.payload.focusedElem.getBoundingClientRect();
+            const viewport = state.rects.mainWrapper!;
+            const contentWrapper = state.elements.contentWrapper!.getBoundingClientRect();
+
+            let pointToFind: number | null = null;
+
+            if (focusedElem.right > viewport.right) {
+                pointToFind = focusedElem.right - contentWrapper.left - viewport.width;
+            } else if (focusedElem.left < viewport.left) {
+                pointToFind = focusedElem.left - contentWrapper.left;
+            }
+
+            if (pointToFind === null) {
+                return state;
+            }
+
+            const snapPoints = getSnapPoints(state);
+            const newPos = getNearestValue(snapPoints, pointToFind);
+
+            const scrollPosition = {
+                scrollPositionPx: newPos,
+                scrollPositionPercentage: newPos / getMaxScrollPosition(state)
+            };
+            const handlerWidth = state.rects.scrollbar!.width * state.visibleContentPercentage;
+            const activeScrollWidth = state.rects.scrollbar!.width - handlerWidth;
+            const handlerPosition = activeScrollWidth * scrollPosition.scrollPositionPercentage;
+
+            return {
+                ...state,
+                ...scrollPosition,
+                handlerOffset: handlerPosition
+            };
+
+        }
     }
 
     return  state;
