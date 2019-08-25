@@ -35,7 +35,7 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
             addListeners();
             dispatch(actions.scrollStart(getMousePosition(e)));
         },
-        [ dispatch ]
+        [ dispatch ]  // eslint-disable-line react-hooks/exhaustive-deps
     );
 
     const onScrollMove = useCallback(
@@ -56,7 +56,7 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
             clearListeners();
             dispatch(actions.scrollEnd())
         },
-        [ dispatch ]
+        [ dispatch ] // eslint-disable-line react-hooks/exhaustive-deps
     );
 
     const onScrollStep = useCallback(
