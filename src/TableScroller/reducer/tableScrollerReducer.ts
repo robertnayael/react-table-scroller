@@ -94,6 +94,14 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
             return stepScroll(state, direction);
         }
 
+        case getType(actions.scrollStepBack): {
+            return stepScroll(state, -1);
+        }
+
+        case getType(actions.scrollStepForward): {
+            return stepScroll(state, 1);
+        }
+
         case getType(actions.focusChange): {
             const focusedElem = action.payload.focusedElem.getBoundingClientRect();
             const viewport = state.rects.mainWrapper!;

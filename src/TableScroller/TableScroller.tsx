@@ -8,6 +8,7 @@ export const TableScroller: React.FC = ({ children }) => {
 
     const [ state, dispatch ] = useReducer(tableScrollerReducer, initialState);
 
+    const [enclosingWrapper, enclosingWrapperRef ] = useState<HTMLDivElement | null>(null);
     const [ mainWrapper, mainWrapperRef ] = useState<HTMLDivElement | null>(null);
     const [ contentWrapper, contentWrapperRef ] = useState<HTMLDivElement | null>(null);
 
@@ -34,10 +35,38 @@ export const TableScroller: React.FC = ({ children }) => {
         [ dispatch, resetScroll ]
     );
 
+    const onWheel = useCallback(
+        (e: WheelEvent) => {
+            e.preventDefault();
+            const action = Math.sign(e.deltaY) < 0
+                ? actions.scrollStepBack()
+                : actions.scrollStepForward();
+            dispatch(action);
+        },
+        [ dispatch ]
+    );
+
+    /* Adding this event listener via React props makes it impossible to call
+       `preventDefault()`, which we need to do so that scrolling the table doesn't
+       cause the whole document to be scrolled at the same time.
+     */
+    useEffect(() => {
+        if (enclosingWrapper) {
+            enclosingWrapper.addEventListener('wheel', onWheel);
+        }
+        return () => {
+            if (enclosingWrapper) {
+                enclosingWrapper.removeEventListener('wheel', onWheel); }
+            }
+    }, [ enclosingWrapper, onWheel ]);
+
     const { handlerOffset, isScrolling, scrollPositionPx, visibleContentPercentage } = state;
 
     return (
-        <div className="enclosing-wrapper">
+        <div
+            className="enclosing-wrapper"
+            ref={enclosingWrapperRef}
+        >
             <Scrollbar 
                 dispatch={dispatch}
                 handlerPosition={handlerOffset}
