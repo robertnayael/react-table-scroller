@@ -14,7 +14,11 @@ export interface TableScrollerState {
      * Ranges from `0` (no scroll) to `contentWrapper` size minus `mainWrapper` size (100% scroll).
      */
     scrollPositionPx: number;
-    handlerOffset: number;
+    /**
+     * Pixel-based position of the scrollbar handler relative to the whole scrollbar. Ranges from
+     * `0` to scrollbar width minus handler width.
+     */
+    handlerPositionPx: number;
     /**
      * Inidicates what proportion of the table is visible at any moment. E.g. `0.25` means that
      * 1/4 of the table is visible.

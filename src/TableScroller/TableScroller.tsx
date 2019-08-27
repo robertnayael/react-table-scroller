@@ -60,7 +60,7 @@ export const TableScroller: React.FC = ({ children }) => {
             }
     }, [ enclosingWrapper, onWheel ]);
 
-    const { handlerOffset, isScrolling, scrollPositionPx, visibleContentPercentage } = state;
+    const { handlerPositionPx, isScrolling, scrollPositionPx, visibleContentPercentage } = state;
 
     return (
         <div
@@ -69,7 +69,7 @@ export const TableScroller: React.FC = ({ children }) => {
         >
             <Scrollbar 
                 dispatch={dispatch}
-                handlerPosition={handlerOffset}
+                handlerPosition={handlerPositionPx}
                 isScrolling={isScrolling}
                 visibleContentPercentage={visibleContentPercentage}
             />

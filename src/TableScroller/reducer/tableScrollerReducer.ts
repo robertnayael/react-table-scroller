@@ -63,7 +63,7 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
                 ...state,
                 scrollPositionPercentage,
                 scrollPositionPx,
-                handlerOffset: handlerPosition
+                handlerPositionPx: handlerPosition
             };
         }
 
@@ -133,7 +133,7 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
             return {
                 ...state,
                 ...scrollPosition,
-                handlerOffset: handlerPosition
+                handlerPositionPx: handlerPosition
             };
 
         }
@@ -186,6 +186,6 @@ function stepScroll(state: TableScrollerState, direction: 1 | -1): TableScroller
     return {
         ...state,
         ...scrollPosition,
-        handlerOffset: handlerPosition
+        handlerPositionPx: handlerPosition
     };
 }
