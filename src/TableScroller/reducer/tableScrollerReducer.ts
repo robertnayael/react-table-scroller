@@ -142,6 +142,12 @@ export function tableScrollerReducer(state: TableScrollerState, action: TableScr
     return  state;
 }
 
+/**
+ * Calculates client rectangles of the provided DOM nodes
+ * 
+ * @param elems DOM nodes
+ * @return client rectangles
+ */
 function getRects(elems: TableScrollerState['elements']): TableScrollerState['rects'] {
     return {
         mainWrapper: elems.mainWrapper && getBoundingRect(elems.mainWrapper),
@@ -150,17 +156,30 @@ function getRects(elems: TableScrollerState['elements']): TableScrollerState['re
     };
 }
 
+/**
+ * Calculates the visible portion of the inner table
+ * 
+ * @param rects client rectangles of the relevant DOM nodes
+ * @return proportion of the table that is visible at a time (`>0` and `<=1`)
+ */
 function getVisibleContentPercentage(rects: TableScrollerState['rects']): number {
     return rects.mainWrapper && rects.contentWrapper
         ? Math.min(1, rects.mainWrapper.width / rects.contentWrapper.width)
         : 0;
 }
 
-function getMaxScrollPosition(state: TableScrollerState) {
+function getMaxScrollPosition(state: TableScrollerState): number {
     return state.rects.contentWrapper!.width - state.rects.mainWrapper!.width;
 }
 
-function getSnapPoints(state: TableScrollerState) {
+/**
+ * Calculates snap points in the inner table. Basically, these are the x
+ * coordinates of table columns relative to the table wrapper.
+ * 
+ * @param state table scroller state
+ * @return list of snap points
+ */
+function getSnapPoints(state: TableScrollerState): number[] {
     const table = getInnerTable(state.elements.contentWrapper!);
     const maxPos = getMaxScrollPosition(state);
     return table
@@ -169,6 +188,14 @@ function getSnapPoints(state: TableScrollerState) {
         : [ 0 ];
 }
 
+/**
+ * Attempts to step the current scroll position to match the position of the
+ * previous or next table column.
+ * 
+ * @param state table scroller state
+ * @param direction `-1` (step scroll backward) or `1` (step scroll forward)
+ * @return new table scroller state
+ */
 function stepScroll(state: TableScrollerState, direction: 1 | -1): TableScrollerState {
     const snapPoints = getSnapPoints(state);
     const currentPos = getNearestValue(snapPoints, state.scrollPositionPx);
