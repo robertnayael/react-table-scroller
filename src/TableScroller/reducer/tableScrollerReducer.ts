@@ -2,9 +2,17 @@ import { getType } from 'typesafe-actions';
 
 import { TableScrollerState } from '../models';
 import { actions, initialState, TableScrollerActions } from './';
-import { getBoundingRect, getColumnPositions, getInnerTable, getNearestValue } from '../helpers';
+import {
+    getBoundingRect,
+    getColumnPositions,
+    getInnerTable,
+    getNearestValue
+} from '../helpers';
 
-export function tableScrollerReducer(state: TableScrollerState, action: TableScrollerActions): TableScrollerState {
+export function tableScrollerReducer(
+    state: TableScrollerState,
+    action: TableScrollerActions
+): TableScrollerState {
 
     switch (action.type) {
 
@@ -196,16 +204,22 @@ function getSnapPoints(state: TableScrollerState): number[] {
  * @param direction `-1` (step scroll backward) or `1` (step scroll forward)
  * @return new table scroller state
  */
-function stepScroll(state: TableScrollerState, direction: 1 | -1): TableScrollerState {
+function stepScroll(
+    state: TableScrollerState,
+    direction: 1 | -1
+): TableScrollerState {
+
     const snapPoints = getSnapPoints(state);
     const currentPos = getNearestValue(snapPoints, state.scrollPositionPx);
     const currentIndex = snapPoints.findIndex(snapPoint => snapPoint === currentPos);
     const newIndex = Math.min(snapPoints.length - 1, Math.max(0, currentIndex + direction));
     const newPos = snapPoints[newIndex];
+
     const scrollPosition = {
         scrollPositionPx: newPos,
         scrollPositionPercentage: newPos / getMaxScrollPosition(state)
     };
+
     const handlerWidth = state.rects.scrollbar!.width * state.visibleContentPercentage;
     const activeScrollWidth = state.rects.scrollbar!.width - handlerWidth;
     const handlerPosition = activeScrollWidth * scrollPosition.scrollPositionPercentage;
