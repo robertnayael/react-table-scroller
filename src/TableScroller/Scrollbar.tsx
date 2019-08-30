@@ -84,7 +84,7 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
     }, [ onScrollMove, onScrollEnd ]);
 
     useEffect(() => {
-        dispatch(actions.updateScrollbarElem(scrollbar));
+        dispatch(actions.updateScrollbarNode(scrollbar));
     }, [ dispatch, scrollbar ]);
 
     useEffect(() => clearListeners, [ clearListeners ]);

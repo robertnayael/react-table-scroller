@@ -1,8 +1,8 @@
-.enclosing-wrapper {
+.main-wrapper {
     width: 45em;
 }
 
-.main-wrapper {
+.viewport {
     overflow: hidden;
     margin: 1em 0;
 }

@@ -2,19 +2,19 @@ import { createAction } from 'typesafe-actions';
 
 import { Point } from '../models';
 
-export const updateMainWrapperElem = createAction('UpdateMainWrapperElem', action => 
-    (elem: HTMLDivElement | null) =>
-        action({ elemName: 'mainWrapper', elem })
+export const updateViewportNode = createAction('UpdateViewportNode', action => 
+    (node: HTMLDivElement | null) =>
+        action({ nodeName: 'viewport', node })
 );
 
-export const updateContentWrapperElem = createAction('UpdateContentWrapperElem', action =>
-    (elem: HTMLDivElement | null) =>
-        action({ elemName: 'contentWrapper', elem })
+export const updateContentWrapperNode = createAction('UpdateContentWrapperNode', action =>
+    (node: HTMLDivElement | null) =>
+        action({ nodeName: 'contentWrapper', node })
 );
 
-export const updateScrollbarElem = createAction('UpdateScrollbarElem', action =>
-    (elem: HTMLDivElement | null) =>
-        action({ elemName: 'scrollbar', elem })
+export const updateScrollbarNode = createAction('UpdateScrollbarNode', action =>
+    (node: HTMLDivElement | null) =>
+        action({ nodeName: 'scrollbar', node })
 );
 
 export const scrollStart = createAction('ScrollStart', action =>

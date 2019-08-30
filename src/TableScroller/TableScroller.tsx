@@ -8,18 +8,18 @@ export const TableScroller: React.FC = ({ children }) => {
 
     const [ state, dispatch ] = useReducer(tableScrollerReducer, initialState);
 
-    const [enclosingWrapper, enclosingWrapperRef ] = useState<HTMLDivElement | null>(null);
     const [ mainWrapper, mainWrapperRef ] = useState<HTMLDivElement | null>(null);
+    const [ viewport, viewportRef ] = useState<HTMLDivElement | null>(null);
     const [ contentWrapper, contentWrapperRef ] = useState<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        dispatch(actions.updateMainWrapperElem(mainWrapper));
-        dispatch(actions.updateContentWrapperElem(contentWrapper));
-    }, [ mainWrapper, contentWrapper ]);
+        dispatch(actions.updateViewportNode(viewport));
+        dispatch(actions.updateContentWrapperNode(contentWrapper));
+    }, [ viewport, contentWrapper ]);
 
     const resetScroll = useCallback(
-        () => mainWrapper && (mainWrapper.scrollLeft = 0),
-        [ mainWrapper ]
+        () => viewport && (viewport.scrollLeft = 0),
+        [viewport ]
     );
 
     const onFocus = useCallback(
@@ -51,21 +51,21 @@ export const TableScroller: React.FC = ({ children }) => {
        cause the whole document to be scrolled at the same time.
      */
     useEffect(() => {
-        if (enclosingWrapper) {
-            enclosingWrapper.addEventListener('wheel', onWheel);
+        if (mainWrapper) {
+            mainWrapper.addEventListener('wheel', onWheel);
         }
         return () => {
-            if (enclosingWrapper) {
-                enclosingWrapper.removeEventListener('wheel', onWheel); }
+            if (mainWrapper) {
+                mainWrapper.removeEventListener('wheel', onWheel); }
             }
-    }, [ enclosingWrapper, onWheel ]);
+    }, [ mainWrapper, onWheel ]);
 
     const { handlerPositionPx, isScrolling, scrollPositionPx, visibleContentPercentage } = state;
 
     return (
         <div
-            className="enclosing-wrapper"
-            ref={enclosingWrapperRef}
+            className="main-wrapper"
+            ref={mainWrapperRef}
         >
             <Scrollbar 
                 dispatch={dispatch}
@@ -74,8 +74,8 @@ export const TableScroller: React.FC = ({ children }) => {
                 visibleContentPercentage={visibleContentPercentage}
             />
             <div
-                ref={mainWrapperRef}
-                className="main-wrapper"
+                ref={viewportRef}
+                className="viewport"
                 onScroll={resetScroll}
             >
                 <div

@@ -37,8 +37,8 @@ export interface TableScrollerState {
     /**
      * DOM elements whose position and/or dimensions need to be measured at various points in time.
      */
-    elements: {
-        mainWrapper: HTMLDivElement | null;
+    nodes: {
+        viewport: HTMLDivElement | null;
         contentWrapper: HTMLDivElement | null;
         scrollbar: HTMLDivElement | null;
     };
@@ -48,7 +48,7 @@ export interface TableScrollerState {
      * dimensions change.
      */
     rects: {
-        mainWrapper: BoundingRect | null;
+        viewport: BoundingRect | null;
         contentWrapper: BoundingRect | null;
         scrollbar: BoundingRect | null;
     };

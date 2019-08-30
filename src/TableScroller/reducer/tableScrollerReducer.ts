@@ -16,20 +16,20 @@ export function tableScrollerReducer(
 
     switch (action.type) {
 
-        case getType(actions.updateMainWrapperElem):
-        case getType(actions.updateContentWrapperElem):
-        case getType(actions.updateScrollbarElem): {
-            const { elem, elemName } = action.payload;
+        case getType(actions.updateViewportNode):
+        case getType(actions.updateContentWrapperNode):
+        case getType(actions.updateScrollbarNode): {
+            const { node, nodeName } = action.payload;
 
-            const elements = {
-                ...state.elements,
-                [elemName]: elem
+            const nodes = {
+                ...state.nodes,
+                [nodeName]: node
             };
-            const rects = getRects(elements);
+            const rects = getRects(nodes);
             return {
                 ...initialState,
                 visibleContentPercentage: getVisibleContentPercentage(rects),
-                elements,
+                nodes,
                 rects
             };
         }
@@ -65,7 +65,7 @@ export function tableScrollerReducer(
             const mouseDistanceSinceStart = action.payload.mousePositionAbsolute.x - state.mousePosOnScrollStart!.x;
             const handlerPosition = clampPosition(state.handlerPosOnScrollStart!.x + mouseDistanceSinceStart);
             const scrollPositionPercentage = handlerPosition / activeScrollWidth;
-            const scrollPositionPx = Math.round((state.rects.contentWrapper!.width - state.rects.mainWrapper!.width) * scrollPositionPercentage);
+            const scrollPositionPx = Math.round((state.rects.contentWrapper!.width - state.rects.viewport!.width) * scrollPositionPercentage);
 
             return {
                 ...state,
@@ -112,8 +112,8 @@ export function tableScrollerReducer(
 
         case getType(actions.focusChange): {
             const focusedElem = action.payload.focusedElem.getBoundingClientRect();
-            const viewport = state.rects.mainWrapper!;
-            const contentWrapper = state.elements.contentWrapper!.getBoundingClientRect();
+            const viewport = state.rects.viewport!;
+            const contentWrapper = state.nodes.contentWrapper!.getBoundingClientRect();
 
             let pointToFind: number | null = null;
 
@@ -156,11 +156,11 @@ export function tableScrollerReducer(
  * @param elems DOM nodes
  * @return client rectangles
  */
-function getRects(elems: TableScrollerState['elements']): TableScrollerState['rects'] {
+function getRects(nodes: TableScrollerState['nodes']): TableScrollerState['rects'] {
     return {
-        mainWrapper: elems.mainWrapper && getBoundingRect(elems.mainWrapper),
-        contentWrapper: elems.contentWrapper && getBoundingRect(elems.contentWrapper),
-        scrollbar: elems.scrollbar && getBoundingRect(elems.scrollbar),
+        viewport: nodes.viewport && getBoundingRect(nodes.viewport),
+        contentWrapper: nodes.contentWrapper && getBoundingRect(nodes.contentWrapper),
+        scrollbar: nodes.scrollbar && getBoundingRect(nodes.scrollbar),
     };
 }
 
@@ -171,13 +171,13 @@ function getRects(elems: TableScrollerState['elements']): TableScrollerState['re
  * @return proportion of the table that is visible at a time (`>0` and `<=1`)
  */
 function getVisibleContentPercentage(rects: TableScrollerState['rects']): number {
-    return rects.mainWrapper && rects.contentWrapper
-        ? Math.min(1, rects.mainWrapper.width / rects.contentWrapper.width)
+    return rects.viewport && rects.contentWrapper
+        ? Math.min(1, rects.viewport.width / rects.contentWrapper.width)
         : 0;
 }
 
 function getMaxScrollPosition(state: TableScrollerState): number {
-    return state.rects.contentWrapper!.width - state.rects.mainWrapper!.width;
+    return state.rects.contentWrapper!.width - state.rects.viewport!.width;
 }
 
 /**
@@ -188,7 +188,7 @@ function getMaxScrollPosition(state: TableScrollerState): number {
  * @return list of snap points
  */
 function getSnapPoints(state: TableScrollerState): number[] {
-    const table = getInnerTable(state.elements.contentWrapper!);
+    const table = getInnerTable(state.nodes.contentWrapper!);
     const maxPos = getMaxScrollPosition(state);
     return table
         ? getColumnPositions(table)

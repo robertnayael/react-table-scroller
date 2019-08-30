@@ -7,13 +7,13 @@ export const initialState: TableScrollerState = {
     visibleContentPercentage: 0,
     isScrolling: false,
     columns: 0,
-    elements: {
-        mainWrapper: null,
+    nodes: {
+        viewport: null,
         contentWrapper: null,
         scrollbar: null,
     },
     rects: {
-        mainWrapper: null,
+        viewport: null,
         contentWrapper: null,
         scrollbar: null,
     },
