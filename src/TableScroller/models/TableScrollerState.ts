@@ -38,8 +38,11 @@ export interface TableScrollerState {
      * DOM elements whose position and/or dimensions need to be measured at various points in time.
      */
     nodes: {
+        /** Limits the viewable area of the underlying table */
         viewport: HTMLDivElement | null;
+        /** Wraps the whole table (and ideally should have exactly the same dimensions as the table) */
         contentWrapper: HTMLDivElement | null;
+        /** Whole scrollbar element */
         scrollbar: HTMLDivElement | null;
     };
     /**
@@ -48,8 +51,11 @@ export interface TableScrollerState {
      * dimensions change.
      */
     rects: {
+        /** Limits the viewable area of the underlying table */
         viewport: BoundingRect | null;
+        /** Wraps the whole table (and ideally should have exactly the same dimensions as the table) */
         contentWrapper: BoundingRect | null;
+        /** Whole scrollbar element */
         scrollbar: BoundingRect | null;
     };
     /** Absolute mouse position on scroll start */
