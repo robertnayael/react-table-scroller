@@ -4,6 +4,14 @@ import { actions, tableScrollerReducer, initialState } from './reducer';
 import { Scrollbar } from './';
 import './TableScroller.css';
 
+/**
+ * This component is exected to wrap a table and provides a fine-tuned scrolling
+ * functionality if the underlying table has a larger width than that of the wrapper.
+ * 
+ * Note that the wrapper occupies the full available width and height, so in order to
+ * control its dimensions just make sure that it's enclosed in a container
+ * of the desired size.
+ */
 export const TableScroller: React.FC = ({ children }) => {
 
     const [ state, dispatch ] = useReducer(tableScrollerReducer, initialState);
