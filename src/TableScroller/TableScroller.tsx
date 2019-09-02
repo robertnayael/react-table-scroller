@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useState, useCallback } from 'react';
 
 import { actions, tableScrollerReducer, initialState } from './reducer';
 import { Scrollbar } from './';
-import './TableScroller.css';
+import './styles.css';
 
 /**
  * This component is exected to wrap a table and provides a fine-tuned scrolling

@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 
 import { actions, TableScrollerActions } from './reducer';
 import { getMousePosition } from './helpers';
-import './Scrollbar.css';
 
 interface ScrollbarProps {
     dispatch: React.Dispatch<TableScrollerActions>;
