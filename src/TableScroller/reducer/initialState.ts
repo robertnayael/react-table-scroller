@@ -9,12 +9,12 @@ export const initialState: TableScrollerState = {
     columns: 0,
     nodes: {
         viewport: null,
-        contentWrapper: null,
+        tableWrapper: null,
         scrollbar: null,
     },
     rects: {
         viewport: null,
-        contentWrapper: null,
+        tableWrapper: null,
         scrollbar: null,
     },
     mousePosOnScrollStart: null,

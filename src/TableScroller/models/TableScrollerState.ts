@@ -41,7 +41,7 @@ export interface TableScrollerState {
         /** Limits the viewable area of the underlying table */
         viewport: HTMLDivElement | null;
         /** Wraps the whole table (and ideally should have exactly the same dimensions as the table) */
-        contentWrapper: HTMLDivElement | null;
+        tableWrapper: HTMLDivElement | null;
         /** Whole scrollbar element */
         scrollbar: HTMLDivElement | null;
     };
@@ -54,7 +54,7 @@ export interface TableScrollerState {
         /** Limits the viewable area of the underlying table */
         viewport: BoundingRect | null;
         /** Wraps the whole table (and ideally should have exactly the same dimensions as the table) */
-        contentWrapper: BoundingRect | null;
+        tableWrapper: BoundingRect | null;
         /** Whole scrollbar element */
         scrollbar: BoundingRect | null;
     };

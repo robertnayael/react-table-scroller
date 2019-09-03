@@ -7,9 +7,9 @@ export const updateViewportNode = createAction('UpdateViewportNode', action =>
         action({ nodeName: 'viewport', node })
 );
 
-export const updateContentWrapperNode = createAction('UpdateContentWrapperNode', action =>
+export const updateTableWrapperNode = createAction('UpdateTableWrapperNode', action =>
     (node: HTMLDivElement | null) =>
-        action({ nodeName: 'contentWrapper', node })
+        action({ nodeName: 'tableWrapper', node })
 );
 
 export const updateScrollbarNode = createAction('UpdateScrollbarNode', action =>

@@ -18,12 +18,12 @@ export const TableScroller: React.FC = ({ children }) => {
 
     const [ mainWrapper, mainWrapperRef ] = useState<HTMLDivElement | null>(null);
     const [ viewport, viewportRef ] = useState<HTMLDivElement | null>(null);
-    const [ contentWrapper, contentWrapperRef ] = useState<HTMLDivElement | null>(null);
+    const [tableWrapper, tableWrapperRef ] = useState<HTMLDivElement | null>(null);
 
     useEffect(() => {
         dispatch(actions.updateViewportNode(viewport));
-        dispatch(actions.updateContentWrapperNode(contentWrapper));
-    }, [ viewport, contentWrapper ]);
+        dispatch(actions.updateTableWrapperNode(tableWrapper));
+    }, [viewport, tableWrapper ]);
 
     const resetScroll = useCallback(
         () => viewport && (viewport.scrollLeft = 0),
@@ -87,7 +87,7 @@ export const TableScroller: React.FC = ({ children }) => {
                 onScroll={resetScroll}
             >
                 <div
-                    ref={contentWrapperRef}
+                    ref={tableWrapperRef}
                     onFocus={onFocus}
                     className="content-wrapper"
                     style={{
