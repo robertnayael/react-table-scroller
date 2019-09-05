@@ -8,25 +8,27 @@ const columns = Array.from({ length: 30 }, (_, i) => i + 1);
 
 const App: React.FC = () => {
   return (
-    <TableScroller>
-      <table>
-        <thead>
-          <tr>
-            {columns.map(value => <th key={`th.${value}`}>{value}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {
-            rows.map((row) =>
-              <tr key={`row.${row}`}>
-                {columns.map(col => <td key={`col.${row}.${col}`}><input type="text" /></td>)}
-              </tr>
-            )
-          }
-        </tbody>
+    <div style={{ width: '50em' }}>
+      <TableScroller>
+        <table>
+          <thead>
+            <tr>
+              {columns.map(value => <th key={`th.${value}`}>{value}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              rows.map((row) =>
+                <tr key={`row.${row}`}>
+                  {columns.map(col => <td key={`col.${row}.${col}`}><input type="text" /></td>)}
+                </tr>
+              )
+            }
+          </tbody>
 
-      </table>
-    </TableScroller>
+        </table>
+      </TableScroller>
+    </div>
   );
 }
 

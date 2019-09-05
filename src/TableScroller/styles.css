@@ -1,10 +1,9 @@
 .main-wrapper {
-    width: 45em;
+    width: 100%;
 }
 
 .viewport {
     overflow: hidden;
-    margin: 1em 0;
 }
 
 .content-wrapper {
@@ -13,7 +12,7 @@
 
 .scrollbar {
     background: lightgray;
-    height: 20px;
+    height: 1em;
 }
 
 .handler {
