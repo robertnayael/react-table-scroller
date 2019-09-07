@@ -1,20 +1,28 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import classnames from 'classnames';
 
 import { actions, TableScrollerActions } from './reducer';
 import { getMousePosition } from './helpers';
+
+import styles from './TableScroller.module.css';
 
 interface ScrollbarProps {
     dispatch: React.Dispatch<TableScrollerActions>;
     handlerPosition: number;
     isScrolling: boolean;
     visibleContentPercentage: number;
+    scrollbarClassname?: string;
+    handlerClassname?: string;
+    arrowLeftClassname?: string;
+    arrowRightClassname?: string;
 };
 
 export const Scrollbar: React.FC<ScrollbarProps> = ({
     dispatch,
     handlerPosition,
     isScrolling,
-    visibleContentPercentage
+    visibleContentPercentage,
+    ...props
 }) => {
 
     const [scrollbar, scrollbarRef] = useState<HTMLDivElement | null>(null);
@@ -89,15 +97,21 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
     useEffect(() => clearListeners, [ clearListeners ]);
 
     const handlerWidth = visibleContentPercentage * 100;
+
+    const classes = {
+        scrollbar: classnames(styles.scrollbar, props.scrollbarClassname),
+        handler: classnames(styles.handler, props.handlerClassname),
+    }
+
     return (
         <div
             ref={scrollbarRef}
-            className="scrollbar"
+            className={classes.scrollbar}
             onClick={onScrollStep}
         >
             <div
                 onMouseDown={onScrollStart}
-                className="handler"
+                className={classes.handler}
                 style={{
                     transition: isScrolling ? 'none' : 'transform .25s',
                     width: `${handlerWidth}%`,

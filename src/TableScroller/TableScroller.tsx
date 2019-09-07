@@ -2,7 +2,17 @@ import React, { useEffect, useReducer, useState, useCallback } from 'react';
 
 import { actions, tableScrollerReducer, initialState } from './reducer';
 import { Scrollbar } from './';
-import './styles.css';
+
+import styles from './TableScroller.module.css';
+
+export interface TableScrollerProps {
+    bottomScrollbar?: boolean;
+    topScrollbar?: boolean;
+    scrollbarClassname?: string;
+    handlerClassname?: string;
+    arrowLeftClassname?: string;
+    arrowRightClassname?: string;
+}
 
 /**
  * This component is exected to wrap a table and provides a fine-tuned scrolling
@@ -12,8 +22,12 @@ import './styles.css';
  * control its dimensions just make sure that it's enclosed in a container
  * of the desired size.
  */
-export const TableScroller: React.FC = ({ children }) => {
-
+export const TableScroller: React.FC<TableScrollerProps> = ({
+    children,
+    bottomScrollbar,
+    topScrollbar,
+    ...props
+}) => {
     const [ state, dispatch ] = useReducer(tableScrollerReducer, initialState);
 
     const [ mainWrapper, mainWrapperRef ] = useState<HTMLDivElement | null>(null);
@@ -72,7 +86,7 @@ export const TableScroller: React.FC = ({ children }) => {
 
     return (
         <div
-            className="main-wrapper"
+            className={styles['main-wrapper']}
             ref={mainWrapperRef}
         >
             <Scrollbar 
@@ -80,16 +94,17 @@ export const TableScroller: React.FC = ({ children }) => {
                 handlerPosition={handlerPositionPx}
                 isScrolling={isScrolling}
                 visibleContentPercentage={visibleContentPercentage}
+                {...props}
             />
             <div
                 ref={viewportRef}
-                className="viewport"
+                className={styles['viewport']}
                 onScroll={resetScroll}
             >
                 <div
                     ref={tableWrapperRef}
                     onFocus={onFocus}
-                    className="content-wrapper"
+                    className={styles['content-wrapper']}
                     style={{
                         transition: isScrolling ? 'none' : 'transform .25s',
                         transform: `translateX(-${scrollPositionPx}px)`
@@ -100,4 +115,9 @@ export const TableScroller: React.FC = ({ children }) => {
             </div>
         </div>
     );
+};
+
+TableScroller.defaultProps = {
+    topScrollbar: true,
+    bottomScrollbar: true
 };
