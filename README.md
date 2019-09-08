@@ -43,7 +43,7 @@ arrowRightClassname?: string;   // CSS class for right scrollbar arrow
 
 ## Limitations
 
-* The scroller only supports vertical scrolling at the moment
+* The scroller only supports horizontal scrolling at the moment
 * For scroll snapping to work correctly, all columns in the table must have the same width
 * Limited touch support
 * The width of the scroller should be divisible by the width of a table column; if the column is `10em` wide, the scroller width can be `10em`, `20em`, `30em`, ...`100em`, etc.
