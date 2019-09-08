@@ -1,0 +1,22 @@
+.main-wrapper {
+    width: 100%;
+}
+
+.viewport {
+    overflow: hidden;
+}
+
+.content-wrapper {
+    display: inline-block;
+}
+
+.scrollbar {
+    background: lightgray;
+    height: 1em;
+}
+
+.handler {
+    background: grey;
+    height: 100%;
+    width: 0;
+}
