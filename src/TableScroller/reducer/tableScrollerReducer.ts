@@ -80,14 +80,19 @@ export function tableScrollerReducer(
             const snapPoints = getSnapPoints(state);
             const snappedPos = getNearestValue(snapPoints, scrollPos);
 
-            const position = {
+            const scrollPosition = {
                 scrollPositionPx: snappedPos,
                 scrollPositionPercentage: snappedPos / getMaxScrollPosition(state)
             };
 
+            const handlerWidth = state.rects.scrollbar!.width * state.visibleContentPercentage;
+            const activeScrollWidth = state.rects.scrollbar!.width - handlerWidth;
+            const handlerPosition = activeScrollWidth * scrollPosition.scrollPositionPercentage;
+
             return {
                 ...state,
-                ...position,
+                ...scrollPosition,
+                handlerPositionPx: handlerPosition,
                 isScrolling: false,
                 mousePosOnScrollStart: null,
                 handlerPosOnScrollStart: null
