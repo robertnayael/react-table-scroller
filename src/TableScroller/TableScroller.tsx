@@ -6,11 +6,17 @@ import { Scrollbar } from './';
 import styles from './TableScroller.module.css';
 
 export interface TableScrollerProps {
+    /** Whether to display the bottom scrollbar */
     bottomScrollbar?: boolean;
+    /** Whether to display the top scrollbar */
     topScrollbar?: boolean;
+    /** CSS class for scrollbar element */
     scrollbarClassname?: string;
+    /** CSS class for scrollbar handler */
     handlerClassname?: string;
+    /** CSS class for left scrollbar arrow */
     arrowLeftClassname?: string;
+    /** CSS class for right scrollbar arrow */
     arrowRightClassname?: string;
 }
 

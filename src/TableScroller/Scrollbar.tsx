@@ -7,14 +7,23 @@ import { getMousePosition } from './helpers';
 import styles from './TableScroller.module.css';
 
 interface ScrollbarProps {
+    /** Specifies if the scrollbar should be rendered in the first place */
     if: boolean;
+    /** Action dispatcher */
     dispatch: React.Dispatch<TableScrollerActions>;
+    /** Scrollbar handler position (in pixels) relative to the scrollbar itself */
     handlerPosition: number;
+    /** `true` if the user is currently using the scrollbar handler */
     isScrolling: boolean;
+    /** How much of the underlying table is visible at any moment (`>0` and `<=1`) */
     visibleContentPercentage: number;
+    /** CSS class for scrollbar element */
     scrollbarClassname?: string;
+    /** CSS class for scrollbar handler */
     handlerClassname?: string;
+    /** CSS class for left scrollbar arrow */
     arrowLeftClassname?: string;
+    /** CSS class for right scrollbar arrow */
     arrowRightClassname?: string;
 };
 
