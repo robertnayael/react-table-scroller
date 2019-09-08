@@ -24,8 +24,8 @@ export interface TableScrollerProps {
  */
 export const TableScroller: React.FC<TableScrollerProps> = ({
     children,
-    bottomScrollbar,
-    topScrollbar,
+    bottomScrollbar = true,
+    topScrollbar = true,
     ...props
 }) => {
     const [ state, dispatch ] = useReducer(tableScrollerReducer, initialState);
@@ -90,6 +90,7 @@ export const TableScroller: React.FC<TableScrollerProps> = ({
             ref={mainWrapperRef}
         >
             <Scrollbar 
+                if={topScrollbar}
                 dispatch={dispatch}
                 handlerPosition={handlerPositionPx}
                 isScrolling={isScrolling}
@@ -113,11 +114,14 @@ export const TableScroller: React.FC<TableScrollerProps> = ({
                     {children}
                 </div>
             </div>
+            <Scrollbar
+                if={bottomScrollbar}
+                dispatch={dispatch}
+                handlerPosition={handlerPositionPx}
+                isScrolling={isScrolling}
+                visibleContentPercentage={visibleContentPercentage}
+                {...props}
+            />
         </div>
     );
-};
-
-TableScroller.defaultProps = {
-    topScrollbar: true,
-    bottomScrollbar: true
 };

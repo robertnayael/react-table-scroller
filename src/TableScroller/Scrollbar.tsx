@@ -7,6 +7,7 @@ import { getMousePosition } from './helpers';
 import styles from './TableScroller.module.css';
 
 interface ScrollbarProps {
+    if: boolean;
     dispatch: React.Dispatch<TableScrollerActions>;
     handlerPosition: number;
     isScrolling: boolean;
@@ -22,6 +23,7 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
     handlerPosition,
     isScrolling,
     visibleContentPercentage,
+    if: shouldDisplay,
     ...props
 }) => {
 
@@ -103,7 +105,7 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
         handler: classnames(styles.handler, props.handlerClassname),
     }
 
-    return (
+    return shouldDisplay ? (
         <div
             ref={scrollbarRef}
             className={classes.scrollbar}
@@ -119,5 +121,5 @@ export const Scrollbar: React.FC<ScrollbarProps> = ({
                 }}
             />
         </div>
-    );
+    ) : null;
 };
