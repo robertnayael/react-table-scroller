@@ -4,6 +4,7 @@
 
 .viewport {
     overflow: hidden;
+    line-height: 0;
 }
 
 .content-wrapper {
