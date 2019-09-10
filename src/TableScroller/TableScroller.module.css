@@ -4,6 +4,9 @@
 
 .viewport {
     overflow: hidden;
+    line-height: 0;
+    margin: .5rem 0;
+    box-shadow: 0 0 1rem rgba(0,0,0,0.1);
 }
 
 .content-wrapper {
@@ -11,12 +14,26 @@
 }
 
 .scrollbar {
-    background: lightgray;
-    height: 1em;
+    background: rgba(0,0,0,0.1);
+    border-radius: .5rem;
+    height: 1rem;
+    transition: background-color .25s;
+    width: 51rem;
+    transform: translateX(-.5rem);
+}
+
+.scrollbar:hover {
+    background: rgba(0,0,0,0.15);
 }
 
 .handler {
-    background: grey;
     height: 100%;
     width: 0;
+    background: rgba(0,0,0,0.3);
+    border-radius: .5rem;
+    transition: background-color .25s;
+}
+
+.handler:hover {
+    background: rgba(0,0,0,0.4);
 }

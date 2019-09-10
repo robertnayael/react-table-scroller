@@ -1,32 +1,15 @@
 import React from 'react';
 
-import './App.css';
+import { Table } from './Table';
 import { TableScroller } from './TableScroller/TableScroller';
 
-const rows = Array.from({ length: 10 }, (_, i) => i + 1);
-const columns = Array.from({ length: 30 }, (_, i) => i + 1);
+import styles from './App.module.css';
 
 const App: React.FC = () => {
   return (
-    <div style={{ width: '50em' }}>
+    <div className={styles['app-container']}>
       <TableScroller>
-        <table>
-          <thead>
-            <tr>
-              {columns.map(value => <th key={`th.${value}`}>{value}</th>)}
-            </tr>
-          </thead>
-          <tbody>
-            {
-              rows.map((row) =>
-                <tr key={`row.${row}`}>
-                  {columns.map(col => <td key={`col.${row}.${col}`}><input type="text" /></td>)}
-                </tr>
-              )
-            }
-          </tbody>
-
-        </table>
+        <Table />
       </TableScroller>
     </div>
   );

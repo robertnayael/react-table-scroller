@@ -5,4 +5,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(135deg, rgba(45,60,96,1) 0%,rgba(50,67,107,1) 35%,rgba(23,33,57,1) 100%);
+	font-family: sans-serif;
+}
+
+::selection {
+    color: #404e78;
+    background-color: rgba(255,255,255,0.996);
 }
