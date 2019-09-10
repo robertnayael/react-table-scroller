@@ -1,5 +1,13 @@
 # React Table Scroller
 
+<br/>
+<br/>
+<p align="center">
+  <a href="https://codesandbox.io/embed/react-table-scroller-w387o?fontsize=14&view=preview"><b>Live demo</b></a>
+</p>
+<br/>
+<br/>
+
 A simple-to-use component that wraps a table and handler horizontal scrolling if the table width exceeds the wrapper width.
 
 * Scroll position always **snaps to the nearest table column**;
